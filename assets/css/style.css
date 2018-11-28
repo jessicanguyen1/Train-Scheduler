@@ -1,0 +1,36 @@
+.train-header {
+font-weight: bold;
+}
+
+.jumbotron {
+    text-align: center;
+    background: lightblue;
+    margin-bottom: 15px;
+    height: 200px;
+    border-radius: 5px;
+}
+
+h2 {
+    
+    font-size: 20px;
+    /* border: solid 2px; */
+    padding: 10px;
+    background: lightblue;
+    margin-top: -10px;
+    border-radius: 5px;
+    
+}
+
+.table {
+    border: solid 3px;
+}
+
+form {
+    border: solid 2px;
+}
+
+.form-group {
+    padding: 15px;
+    margin-bottom: -15px;
+    padding: 15px 15px 20px;
+}
