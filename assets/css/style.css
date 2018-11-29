@@ -34,3 +34,10 @@ form {
     margin-bottom: -15px;
     padding: 15px 15px 20px;
 }
+
+button {
+    margin-top: 20px;
+    background: lightblue !important;
+    border-color: lightblue !important;
+    color: black !important;
+}
