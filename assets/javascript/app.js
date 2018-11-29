@@ -29,7 +29,7 @@ $('#addTrain').on('click', function () {
     trainData.frequency = $('.frequency').val().trim();
 
 
-    formatTime = moment(trainData.time, "hh:mm a");
+    formatTime = moment(trainData.time, "hh:mm");
 
     dataRef.ref().push(trainData);
 
@@ -46,6 +46,8 @@ dataRef.ref().on('child_added', function (snapshot) {
     // Minutes away
     var minsAway = (newTrainData.frequency - (formatTime % newTrainData.frequency));
 
+    // moment().d
+
     // Push data to firebase
     var newTrain = $('<tr>').append(
         // Train name
@@ -55,7 +57,7 @@ dataRef.ref().on('child_added', function (snapshot) {
         //Frequency
         $("<td>").text(newTrainData.frequency),
         // Next arrival (current time + minutes away
-        $("<td>").text(moment().add(minsAway, "minutes").format("HH:mm")),
+        $("<td>").text(moment().add(minsAway, "minutes").format("hh:mm")),
         // Minutes Away
         $("<td>").text(minsAway, "minutes")
     );
