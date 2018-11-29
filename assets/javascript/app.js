@@ -11,40 +11,54 @@ firebase.initializeApp(config);
 
 var dataRef = firebase.database();
 
+var trainData = {
+    name: "",
+    destination: "",
+    time: "",
+    frequency: 0
+};
+var formatTime;
+
 // Adding function to submit button
 
 $('#addTrain').on('click', function () {
-    var trainData = {
-        name: $('.train-name').val().trim(),
-        destination: $('.destination').val().trim(),
-        time: $('.time').val().trim(),
 
-        frequency: $('.frequency').val().trim(),
-    }
-
-    var formatTime = moment(trainData.time, "hh:mm a");
-    console.log(trainData.name);
-    console.log(trainData.destination);
-    console.log(formatTime._i);
-    console.log(trainData.frequency);
+    trainData.name = $('.train-name').val().trim();
+    trainData.destination = $('.destination').val().trim();
+    trainData.time = $('.time').val().trim();
+    trainData.frequency = $('.frequency').val().trim();
 
 
+    formatTime = moment(trainData.time, "hh:mm a");
+
+    dataRef.ref().push(trainData);
+
+    // Clear input out of form
+    $('.train-name, .destination, .time, .frequency').val("");
+
+});
+
+dataRef.ref().on('child_added', function (snapshot) {
+
+    // Grab snapshot and store it into object
+    var newTrainData = snapshot.val();
+
+    // Minutes away
+    var minsAway = (newTrainData.frequency - (formatTime % newTrainData.frequency));
 
     // Push data to firebase
     var newTrain = $('<tr>').append(
-        $("<td>").text(trainData.name),
-        $("<td>").text(trainData.destination),
-        $("<td>").text(formatTime._i),
-        $("<td>").text(formatTime._i + trainData.frequency),
-        $("<td>").text(trainData.frequency),
+        // Train name
+        $("<td>").text(newTrainData.name),
+        // Destination
+        $("<td>").text(newTrainData.destination),
+        //Frequency
+        $("<td>").text(newTrainData.frequency),
+        // Next arrival (current time + minutes away
+        $("<td>").text(moment().add(minsAway, "minutes").format("HH:mm")),
+        // Minutes Away
+        $("<td>").text(minsAway, "minutes")
     );
 
     $('tbody').append(newTrain);
-
-
-
-
-
-
-    // Clear input out of form
 });
