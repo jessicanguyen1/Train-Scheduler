@@ -1,4 +1,6 @@
-// Initialize Firebase
+/* *************************************************************************************
+Initialize firebase
+************************************************************************************** */
 var config = {
     apiKey: "AIzaSyDcp_3ZmKvVM59PVRB5TEgGFO_LkeupGFQ",
     authDomain: "train-scheduler-47385.firebaseapp.com",
@@ -10,43 +12,61 @@ var config = {
 firebase.initializeApp(config);
 
 var dataRef = firebase.database();
+var currentTime = moment();
 
-var trainData = {
-    name: "",
-    destination: "",
-    time: "",
-    frequency: 0
-};
-var formatTime;
-
-// Adding function to submit button
+/* *************************************************************************************
+Add a click handler to add a new train schedule for firebase
+************************************************************************************** */
 
 $('#addTrain').on('click', function () {
 
-    trainData.name = $('.train-name').val().trim();
-    trainData.destination = $('.destination').val().trim();
-    trainData.time = $('.time').val().trim();
-    trainData.frequency = $('.frequency').val().trim();
+    // Attach new input handlers to local variables
+    var trainName = $('.train-name').val().trim();
+    var trainDestination = $('.destination').val().trim();
+    var firstTrain = $('.first-train').val().trim();
+    var trainFrequency = $('.frequency').val().trim();
+
+    // format time using moment
+    var formattedTime = moment(firstTrain, "hh:mm").subtract("1, years");
+    var timeDifference = currentTime.diff(moment(formattedTime), "minutes");
+    var remainder = timeDifference % trainFrequency;
+    var minsUntilNextTrain = trainFrequency - remainder;
+    var nextTrainArrival = moment().add(minsUntilNextTrain, "minutes").format("hh:mm a");
 
 
-    formatTime = moment(trainData.time, "hh:mm");
 
+
+    var trainData = {
+        name: trainName,
+        destination: trainDestination,
+        firstTrain: firstTrain,
+        frequency: trainFrequency,
+        minutesAway: minsUntilNextTrain,
+        nextTrain: nextTrainArrival
+    };
+
+    // Push train data to firebase
     dataRef.ref().push(trainData);
 
-    // Clear input out of form
-    $('.train-name, .destination, .time, .frequency').val("");
+    // Clear input out of form using jquery multiple class selectors with empty string for val function
+    $('.train-name, .destination, .first-train, .frequency').val("");
 
+    // If we return true, the click function will complete
+    return false;
 });
+
+/* *************************************************************************************
+On page load, 'child_added' will run ONE time first to get data, then listen for any push updates
+-- dataRef.ref().on('child_added', function (dataFromFirebase) {})
+-- dataFromFirebase.val() is the data from firebase, you can use whatever word you want,
+just make they word matches to use val()
+************************************************************************************** */
+
 
 dataRef.ref().on('child_added', function (snapshot) {
 
     // Grab snapshot and store it into object
     var newTrainData = snapshot.val();
-
-    // Minutes away
-    var minsAway = (newTrainData.frequency - (formatTime % newTrainData.frequency));
-
-    // moment().d
 
     // Push data to firebase
     var newTrain = $('<tr>').append(
@@ -54,12 +74,14 @@ dataRef.ref().on('child_added', function (snapshot) {
         $("<td>").text(newTrainData.name),
         // Destination
         $("<td>").text(newTrainData.destination),
-        //Frequency
+        // How often train runs
         $("<td>").text(newTrainData.frequency),
-        // Next arrival (current time + minutes away
-        $("<td>").text(moment().add(minsAway, "minutes").format("hh:mm")),
-        // Minutes Away
-        $("<td>").text(minsAway, "minutes")
+        // Next train arrival
+        $("<td>").text(newTrainData.nextTrain),
+        // Mins awasy
+        $("<td>").text(newTrainData.minutesAway)
+
+        // How many minutes away
     );
 
     $('tbody').append(newTrain);
