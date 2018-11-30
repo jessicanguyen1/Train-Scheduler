@@ -5,10 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Train Scheduler</title>
+    <title> Train Scheduler</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
         crossorigin="anonymous">
     <script></script>
+    <link href="https://fonts.googleapis.com/css?family=Luckiest+Guy" rel="stylesheet">
     <link rel="stylesheet" type="text/css" media="screen" href="assets/css/style.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
@@ -22,20 +23,17 @@
 
     <div class="container">
 
-        <!-- Jumbotron -->
-        <div class="jumbotron jumbotron-fluid">
-
-            <div class="container">
-                <h1 class="display-4">Train Schedule</h1>
-                <p class="lead">This is a modified jumbotron that occupies the entire horizontal space of its parent.</p>
-            </div>
+        <div class="header">
+            <h1>Train Schedule</h1>
         </div>
 
-        <!-- Tables -->
 
+        <p style="text-align: center"><img src="https://i.gifer.com/VbIW.gif" alt="train gif" /></p>
+
+        <!-- Tables -->
         <!-- Table header-->
         <div class="table-head">
-            <h2>Current Train Schedule</h2>
+            <h2>Current Train Schedule 🚂</h2>
         </div>
 
         <div class="table-responsive-sm">
@@ -57,7 +55,7 @@
         <!-- Add train form -->
 
         <div class="table-head">
-            <h2>Add Train</h2>
+            <h2>Add Train 🚂</h2>
         </div>
         <form>
             <div class="form-group">
@@ -71,7 +69,7 @@
             </div>
             <div class="form-group">
                 <label>First Train Time (HH:mm - military time</label>
-                <input type="time" class="time form-control">
+                <input type="time" class="first-train form-control">
             </div>
             <div class="form-group">
                 <label>Frequency (min)</label>

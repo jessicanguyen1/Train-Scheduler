@@ -2,12 +2,16 @@
 font-weight: bold;
 }
 
-.jumbotron {
+.header h1 {
+    font-family: 'Luckiest Guy', cursive;
     text-align: center;
-    background: lightblue;
-    margin-bottom: 15px;
-    height: 200px;
-    border-radius: 5px;
+    margin-top: 50px;
+    font-size: 75px;
+    color: deepskyblue;
+}
+
+img {
+    width: 340px;
 }
 
 h2 {
@@ -15,7 +19,7 @@ h2 {
     font-size: 20px;
     /* border: solid 2px; */
     padding: 10px;
-    background: lightblue;
+    background: deepskyblue;
     margin-top: -10px;
     border-radius: 5px;
     
@@ -37,7 +41,11 @@ form {
 
 button {
     margin-top: 20px;
-    background: lightblue !important;
-    border-color: lightblue !important;
+    background: deepskyblue !important;
+    border-color: deepskyblue !important;
     color: black !important;
+}
+
+label {
+    font-weight: 700;
 }
